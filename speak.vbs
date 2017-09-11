@@ -1,7 +1,7 @@
 option explicit
 dim strpath, fso, strfile, strtxt, user, voice, flag
 
-flag = 2
+flag = 1
 
 call init
 sub init
@@ -29,20 +29,20 @@ end if
 end sub
 
 sub ctrl
-user = msgbox("Press ""OK"" to Play / Pause", vbokcancel + vbexclamation, "Txt to Speech")
+user = msgbox("Press ""yes"" to Play, ""no"" for Pause & ""cancel"" to exit", vbyesnocancel + vbexclamation, "Txt to Speech")
 select case user
-case vbok
-    if flag = 0 then
-        voice.pause
-        flag = 1
-        call ctrl
-    elseif flag = 1 then
+case vbyes
+	if flag = 1 Then
+		call spk
+		call ctrl
+	elseif flag = 0 Then
         voice.resume
-        flag = 0
-        call ctrl
-    else
-        call spk
+		call ctrl
     end if
+case vbno
+		voice.pause
+		flag = 0
+		call ctrl
 case vbcancel
     wscript.quit
 end select
